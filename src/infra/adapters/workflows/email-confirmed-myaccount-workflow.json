@@ -1,0 +1,63 @@
+{
+  "triggers": [
+    {
+      "eventName": "email_confirmed",
+      "expression": {
+        "and": [
+          {
+            "field": "__project",
+            "operator": "eq",
+            "value": "myaccount",
+            "type": "event_attribute"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "campaign-asd",
+  "initialState": "conditional_branch",
+  "context": {
+    "event_attributes": {},
+    "attributes": {}
+  },
+  "states": {
+    "conditional_branch": {
+      "meta": {
+        "type": "conditional_branch",
+        "conditions": [
+          {
+            "field": "country_residence",
+            "operator": "eq",
+            "value": "br",
+            "type": "attribute"
+          }
+        ]
+      },
+      "on": {
+        "0": "send_email_br",
+        "1": "send_email_latam"
+      }
+    },
+    "send_email_br": {
+      "meta": {
+        "type": "send_event",
+        "eventId": "AdobeEmailMyAccountEvtBR"
+      },
+      "on": {
+        "continue": "exit"
+      }
+    },
+    "send_email_latam": {
+      "meta": {
+        "type": "send_event",
+        "eventId": "AdobeEmailMyAccountEvtMX"
+      },
+      "on": {
+        "continue": "exit"
+      }
+    },
+    "exit": {
+      "type": "final"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { ComparisonOperation } from "./../../domain/comparison-operation";
 import {
-  assertConditionalBranchMeta,
+  assertConditionalBranchStateNode,
   StateMachineContext
 } from "./../../../application/domain/workflow";
 import Action from "../../domain/action";
@@ -30,17 +30,17 @@ const evaluate = (
 type CreateConditionalBranchAction = () => Action;
 const createConditionalBranchAction: CreateConditionalBranchAction = () => async (
   context,
-  meta
+  state
 ) => {
-  assertConditionalBranchMeta(meta);
+  assertConditionalBranchStateNode(state);
 
-  for (const [idx, condition] of meta.conditions.entries()) {
+  for (const [idx, condition] of state.conditions.entries()) {
     if (evaluate(context, condition)) {
       return { type: idx.toString() };
     }
   }
 
-  return { type: meta.conditions.length.toString() };
+  return { type: state.conditions.length.toString() };
 };
 
 export default createConditionalBranchAction;

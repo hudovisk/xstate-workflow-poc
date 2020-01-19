@@ -15,43 +15,43 @@
     }
   ],
   "id": "campaign-asd",
-  "initialState": "conditional_branch",
+  "initialState": "start",
   "context": {
     "event_attributes": {},
     "attributes": {}
   },
   "states": {
+    "start": {
+      "type": "start",
+      "on": {
+        "continue": "conditional_branch"
+      }
+    },
     "conditional_branch": {
-      "meta": {
-        "type": "conditional_branch",
-        "conditions": [
-          {
-            "field": "country_residence",
-            "operator": "eq",
-            "value": "br",
-            "type": "attribute"
-          }
-        ]
-      },
+      "type": "conditional_branch",
+      "conditions": [
+        {
+          "field": "country_residence",
+          "operator": "eq",
+          "value": "br",
+          "type": "attribute"
+        }
+      ],
       "on": {
         "0": "send_email_br",
         "1": "send_email_latam"
       }
     },
     "send_email_br": {
-      "meta": {
-        "type": "send_event",
-        "eventId": "AdobeEmailMyAccountEvtBR"
-      },
+      "type": "send_event",
+      "eventId": "AdobeEmailMyAccountEvtBR",
       "on": {
         "continue": "exit"
       }
     },
     "send_email_latam": {
-      "meta": {
-        "type": "send_event",
-        "eventId": "AdobeEmailMyAccountEvtMX"
-      },
+      "type": "send_event",
+      "eventId": "AdobeEmailMyAccountEvtMX",
       "on": {
         "continue": "exit"
       }

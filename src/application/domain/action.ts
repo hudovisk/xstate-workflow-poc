@@ -1,4 +1,4 @@
-import { StateMachineContext, StateMeta, StateMachineEvent } from "./workflow";
+import { StateMachineContext, StateNode, StateMachineEvent } from "./workflow";
 
 export interface TransitionEvent {
   type: StateMachineEvent;
@@ -6,7 +6,7 @@ export interface TransitionEvent {
 
 type Action = (
   context: StateMachineContext,
-  meta: StateMeta
+  state: StateNode
 ) => Promise<TransitionEvent>;
 
 export default Action;

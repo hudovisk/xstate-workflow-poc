@@ -1,23 +1,23 @@
 import EventService from "../../ports/event-sender";
-import { assertSendEventMeta } from "../../domain/workflow";
+import { assertSendEventStateNode } from "../../domain/workflow";
 import Action from "../../domain/action";
 
 type CreateSendEventAction = (eventService: EventService) => Action;
 
 const createSendEventAction: CreateSendEventAction = eventService => async (
   context,
-  meta
+  state
 ) => {
-  assertSendEventMeta(meta);
+  assertSendEventStateNode(state);
 
   if ("id" in context.attributes) {
     await eventService(
-      meta.eventId,
+      state.eventId,
       context.event_attributes,
       context.attributes.id
     );
   } else {
-    await eventService(meta.eventId, context.event_attributes);
+    await eventService(state.eventId, context.event_attributes);
   }
 
   return { type: "continue" };
